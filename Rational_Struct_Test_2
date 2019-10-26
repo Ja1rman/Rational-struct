@@ -119,5 +119,15 @@ bool operator < (Rational a, Rational b)
  
 int main()
 {
+    	int x, y;
+	
+	x = 10;
+	y = 5;
+	
+	cout << x << "; " << y << "\n";
+	cout << Rational(y, x) << "\n";
+	cout << (Rational(y, x) > Rational(x, y)) << "\n";
+	cout << (Rational(y, x) * Rational(x, y)) << "\n";
+	cout << (Rational(y, x) + Rational(x, y)) << "\n";
     return 0;
 }
