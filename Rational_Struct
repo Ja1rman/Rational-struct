@@ -1,10 +1,4 @@
 #include <iostream>
-#include <sstream>
-#include <cmath>
-#include <string>
-#include <set>
-#include <map>
-#include <vector>
  
 using namespace std;
  
@@ -48,8 +42,8 @@ struct Rational
         return den;
     }
 
-    int num; //поле числитель
-    int den; // знаменатель
+    int num;
+    int den;
  
     int Nod(int a, int b) 
     {
@@ -67,30 +61,36 @@ struct Rational
         return a + b;
     }
 };
+
 bool operator == (Rational a, Rational b)
 {
     return ((a.Numerator() == b.Numerator()) && (a.Denominator() == b.Denominator()));
 }
+
 Rational operator + (Rational a, Rational b)
 {
     int p = (a.Numerator() * b.Denominator()) + (b.Numerator() * a.Denominator());
     int q = a.Denominator() * b.Denominator();
     return Rational(p, q);
 }
+
 Rational operator - (Rational a, Rational b)
 {
     int p = (a.Numerator() * b.Denominator()) - (b.Numerator() * a.Denominator());
     int q = a.Denominator() * b.Denominator();
     return Rational(p, q);
 }
+
 Rational operator * (Rational a, Rational b)
 {
     return Rational((a.Numerator()*b.Numerator()), (a.Denominator()*b.Denominator()));
 }
+
 Rational operator / (Rational a, Rational b)
 {
     return Rational((a.Numerator() * b.Denominator()), (a.Denominator() * b.Numerator()));
 }
+
 istream& operator >> (istream& stream, Rational& r) 
 { 
     int p, q;
@@ -106,28 +106,31 @@ ostream& operator << (ostream& stream, const Rational& r)
     stream << r.Numerator() << "/" << r.Denominator();
     return stream;
 }
+
 bool operator > (Rational a, Rational b)
 {
     return (a.Numerator() / (double)a.Denominator()) > double(b.Numerator() / (double)b.Denominator());
 }
+
 bool operator < (Rational a, Rational b)
 {
     return (a.Numerator() / (double)a.Denominator()) < (b.Numerator() / (double)b.Denominator());
 }
  
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
  
 int main()
 {
-    	int x, y;
+    int x, y;
 	
 	x = 10;
 	y = 5;
 	
-	cout << x << "; " << y << "\n";
+	cout << "x = " << x << "; y = " << y << "\n";
 	cout << Rational(y, x) << "\n";
-	cout << (Rational(y, x) > Rational(x, y)) << "\n";
+	cout << (Rational(y, x) > Rational(x, y)) << "\n"; // 0 - false, 1 - true
 	cout << (Rational(y, x) * Rational(x, y)) << "\n";
 	cout << (Rational(y, x) + Rational(x, y)) << "\n";
+	
     return 0;
 }
