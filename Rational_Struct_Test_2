@@ -110,7 +110,7 @@ bool operator > (Rational a, Rational b)
 {
     return (a.Numerator() / (double)a.Denominator()) > double(b.Numerator() / (double)b.Denominator());
 }
-bool operator < (Rational a, Rational b) //обязательно нужно это дело перегрузить, для использования в map и set
+bool operator < (Rational a, Rational b)
 {
     return (a.Numerator() / (double)a.Denominator()) < (b.Numerator() / (double)b.Denominator());
 }
