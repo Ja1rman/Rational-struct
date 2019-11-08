@@ -1,136 +1,120 @@
 #include <iostream>
- 
+
 using namespace std;
- 
+
+int gcd (int a, unsigned int b)
+{
+    if (b == 0) 
+        return a;
+    return gcd (b, a % b);
+};
+
 struct Rational
 {
-    Rational()
-    {
-        num = 0;
-        den = 1;
+    int m;
+    unsigned int n;
+    Rational(int a, unsigned int b){
+        m = a / gcd (a, b);
+        n = b / gcd (a, b);
     }
-    Rational(int numerator, int denominator)
+    Rational (Rational &X)
     {
-        if (denominator < 0)
-        {
-            if (numerator < 0) 
-            {
-                denominator = abs(denominator);
-                numerator = abs(numerator);
-            }
-            else
-            {
-                denominator = abs(denominator);
-                numerator = numerator - 2 * numerator;
-            }
-        }
-        if (numerator == 0)
-        {
-            denominator = 1;
-        }
-       
-        int nod = Nod(abs(numerator), abs(denominator));
-        num = numerator / nod;
-        den = denominator / nod;
+        m = X.m;
+        n = X.n;
     }
-    int Numerator() const 
+    Rational &operator*= (Rational &b)
     {
-        return num;
+        m *= b.m;
+        n *= b.n;
+        int g = gcd (m, n);
+        m /= g;
+        n /= g;
+        return *this;
     }
-    int Denominator() const 
-    {
-        return den;
-    }
-
-    int num;
-    int den;
- 
-    int Nod(int a, int b) 
-    {
-        while (a > 0 && b > 0)
-        {
-            if (a > b)
-            {
-                a %= b;
-            }
-            else
-            {
-                b %= a;
-            }
-        } 
-        return a + b;
+    Rational &operator/= (Rational &b)
+    { 
+        m *= b.n;
+        n *= b.m;
+        int g = gcd (m, n);
+        m /= g;
+        n /= g;
+        return *this;
     }
 };
 
-bool operator == (Rational a, Rational b)
+Rational operator* (Rational a, Rational &b)
+{ 
+    a *= b;
+    int g = gcd (a.m, a.n);
+    a.m /= g;
+    a.n /= g;
+    return a;
+};
+
+Rational operator/ (Rational a, Rational &b)
 {
-    return ((a.Numerator() == b.Numerator()) && (a.Denominator() == b.Denominator()));
-}
+    a /= b;
+    int g = gcd (a.m, a.n);
+    a.m /= g;
+    a.n /= g;
+    return a;
+};
 
 Rational operator + (Rational a, Rational b)
 {
-    int p = (a.Numerator() * b.Denominator()) + (b.Numerator() * a.Denominator());
-    int q = a.Denominator() * b.Denominator();
+    int p = a.m * b.n + b.m * a.n;
+    int q = a.n * b.n;
     return Rational(p, q);
 }
 
 Rational operator - (Rational a, Rational b)
 {
-    int p = (a.Numerator() * b.Denominator()) - (b.Numerator() * a.Denominator());
-    int q = a.Denominator() * b.Denominator();
+    int p = a.m * b.n - b.m * a.n;
+    int q = a.n * b.n;
     return Rational(p, q);
 }
 
-Rational operator * (Rational a, Rational b)
+bool operator> (Rational &a, Rational &b)
 {
-    return Rational((a.Numerator()*b.Numerator()), (a.Denominator()*b.Denominator()));
-}
+    return (a.m * b.n > a.n * b.m);
+};
 
-Rational operator / (Rational a, Rational b)
+bool operator< (Rational &a, Rational &b)
 {
-    return Rational((a.Numerator() * b.Denominator()), (a.Denominator() * b.Numerator()));
-}
+    return (a.m * b.n < a.n * b.m);
+};
 
-istream& operator >> (istream& stream, Rational& r) 
+bool operator<= (Rational &a, Rational &b)
+{
+    return !(a > b);
+};
+
+bool operator>= (Rational &a, Rational &b)
 { 
-    int p, q;
-    if (stream >> p && stream.ignore(1) && stream >> q)
-    {
-        r = { p, q };
-    }
-    return stream;
-}
- 
-ostream& operator << (ostream& stream, const Rational& r)
-{
-    stream << r.Numerator() << "/" << r.Denominator();
-    return stream;
-}
+    return !(a < b);
+};
 
-bool operator > (Rational a, Rational b)
-{
-    return (a.Numerator() / (double)a.Denominator()) > double(b.Numerator() / (double)b.Denominator());
-}
+bool operator== (Rational &a, Rational &b)
+{ 
+    return ((a.m == b.m) && (a.n == b.n));
+};
 
-bool operator < (Rational a, Rational b)
+ostream& operator<< (std::ostream& out, const Rational &a)
+{ 
+    return out << a.m << "/" << a.n;
+};
+
+istream& operator>> (std::istream& in, Rational &a)
 {
-    return (a.Numerator() / (double)a.Denominator()) < (b.Numerator() / (double)b.Denominator());
-}
- 
-////////////////////////////////////////////////////////////////////////////////
- 
+    in >> a.m >> a.n;
+    int g = gcd (a.m, a.n);
+    a.m /= g;
+    a.n /= g;
+    return in;
+};
+
 int main()
 {
-    int x, y;
-	
-	x = 10;
-	y = 5;
-	
-	cout << "x = " << x << "; y = " << y << "\n";
-	cout << Rational(y, x) << "\n";
-	cout << (Rational(y, x) > Rational(x, y)) << "\n"; // 0 - false, 1 - true
-	cout << (Rational(y, x) * Rational(x, y)) << "\n";
-	cout << (Rational(y, x) + Rational(x, y)) << "\n";
-	
+    
     return 0;
 }
