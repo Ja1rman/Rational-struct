@@ -22,7 +22,7 @@ struct Rational
         m = X.m;
         n = X.n;
     }
-    Rational &operator*= (Rational &b)
+    Rational &operator*= (Rational b)
     {
         m *= b.m;
         n *= b.n;
@@ -31,7 +31,7 @@ struct Rational
         n /= g;
         return *this;
     }
-    Rational &operator/= (Rational &b)
+    Rational &operator/= (Rational b)
     { 
         m *= b.n;
         n *= b.m;
@@ -120,7 +120,7 @@ int main()
     cout << Rational(x, y) / Rational(y, x) << endl;
     cout << (Rational(x, y) > Rational(y, x)) << endl; 
     cout << (Rational(x, y) <= Rational(y, x)) << endl; 
-     
+    cout << (Rational(x, y) *= Rational(y, x)) << endl; 
 
     
     return 0;
