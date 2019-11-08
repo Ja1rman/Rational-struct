@@ -99,12 +99,12 @@ bool operator== (Rational &a, Rational &b)
     return ((a.m == b.m) && (a.n == b.n));
 };
 
-ostream& operator<< (std::ostream& out, const Rational &a)
+ostream& operator<< (ostream& out, const Rational &a)
 { 
     return out << a.m << "/" << a.n;
 };
 
-istream& operator>> (std::istream& in, Rational &a)
+istream& operator>> (istream& in, Rational &a)
 {
     in >> a.m >> a.n;
     int g = gcd (a.m, a.n);
