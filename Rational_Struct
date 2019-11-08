@@ -42,22 +42,18 @@ struct Rational
     }
 };
 
-Rational operator* (Rational a, Rational &b)
+Rational operator* (Rational a, Rational b)
 { 
-    a *= b;
-    int g = gcd (a.m, a.n);
-    a.m /= g;
-    a.n /= g;
-    return a;
+    int p = a.m * b.m;
+    int q = a.n * b.n;
+    return Rational(p, q);
 };
 
-Rational operator/ (Rational a, Rational &b)
+Rational operator/ (Rational a, Rational b)
 {
-    a /= b;
-    int g = gcd (a.m, a.n);
-    a.m /= g;
-    a.n /= g;
-    return a;
+    int p = a.m * b.n;
+    int q = a.n * b.m;
+    return Rational(p, q);
 };
 
 Rational operator + (Rational a, Rational b)
@@ -99,12 +95,12 @@ bool operator== (Rational &a, Rational &b)
     return ((a.m == b.m) && (a.n == b.n));
 };
 
-ostream& operator<< (ostream& out, const Rational &a)
+ostream& operator<< (std::ostream& out, const Rational &a)
 { 
     return out << a.m << "/" << a.n;
 };
 
-istream& operator>> (istream& in, Rational &a)
+istream& operator>> (std::istream& in, Rational &a)
 {
     in >> a.m >> a.n;
     int g = gcd (a.m, a.n);
@@ -115,6 +111,13 @@ istream& operator>> (istream& in, Rational &a)
 
 int main()
 {
+    int x, y;
+    cin >> x >> y;
+    cout << Rational(x, y) << endl;
+    cout << Rational(x, y) + Rational(y, x) << endl;
+    cout << Rational(x, y) - Rational(y, x) << endl;
+    cout << Rational(x, y) * Rational(y, x) << endl;
+    cout << Rational(x, y) / Rational(y, x) << endl;
     
     return 0;
 }
