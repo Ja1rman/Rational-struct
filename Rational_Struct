@@ -1,3 +1,5 @@
+// Program was writing on c++ 17
+
 #include <iostream>
 
 using namespace std;
@@ -35,6 +37,28 @@ struct Rational
     { 
         m *= b.n;
         n *= b.m;
+        int g = gcd (m, n);
+        m /= g;
+        n /= g;
+        return *this;
+    }
+    Rational &operator+= (Rational b)
+    { 
+        n *= b.n;
+        m *= b.n;
+        b.m *= n;
+        m += b.m;
+        int g = gcd (m, n);
+        m /= g;
+        n /= g;
+        return *this;
+    }
+    Rational &operator-= (Rational b)
+    { 
+        n *= b.n;
+        m *= b.n;
+        b.m *= n;
+        m -= b.m;
         int g = gcd (m, n);
         m /= g;
         n /= g;
@@ -121,7 +145,7 @@ int main()
     cout << (Rational(x, y) > Rational(y, x)) << endl; 
     cout << (Rational(x, y) <= Rational(y, x)) << endl; 
     cout << (Rational(x, y) *= Rational(y, x)) << endl; 
-
+    cout << (Rational(x, y) += Rational(y, x)) << endl; 
     
     return 0;
 }
