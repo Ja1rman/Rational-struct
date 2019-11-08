@@ -70,27 +70,27 @@ Rational operator - (Rational a, Rational b)
     return Rational(p, q);
 }
 
-bool operator> (Rational &a, Rational &b)
+bool operator> (Rational a, Rational b)
 {
-    return (a.m * b.n > a.n * b.m);
+    return (a.m * b.n > b.m * a.n);
 };
 
-bool operator< (Rational &a, Rational &b)
+bool operator< (Rational a, Rational b)
 {
-    return (a.m * b.n < a.n * b.m);
+    return (a.m * b.n < b.m * a.n);
 };
 
-bool operator<= (Rational &a, Rational &b)
+bool operator<= (Rational a, Rational b)
 {
     return !(a > b);
 };
 
-bool operator>= (Rational &a, Rational &b)
+bool operator>= (Rational a, Rational b)
 { 
     return !(a < b);
 };
 
-bool operator== (Rational &a, Rational &b)
+bool operator== (Rational a, Rational b)
 { 
     return ((a.m == b.m) && (a.n == b.n));
 };
@@ -118,6 +118,10 @@ int main()
     cout << Rational(x, y) - Rational(y, x) << endl;
     cout << Rational(x, y) * Rational(y, x) << endl;
     cout << Rational(x, y) / Rational(y, x) << endl;
+    cout << (Rational(x, y) > Rational(y, x)) << endl; 
+    cout << (Rational(x, y) <= Rational(y, x)) << endl; 
+     
+
     
     return 0;
 }
