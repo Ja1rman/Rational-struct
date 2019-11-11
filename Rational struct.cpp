@@ -1,0 +1,151 @@
+// Program was writing on c++ 17
+
+#include <iostream>
+
+using namespace std;
+
+int gcd (int a, unsigned int b)
+{
+    if (b == 0)
+        return a;
+    return gcd (b, a % b);
+};
+
+struct Rational
+{
+    int m;
+    unsigned int n;
+    Rational(int a, unsigned int b){
+        m = a / gcd (a, b);
+        n = b / gcd (a, b);
+    }
+    Rational (Rational &X)
+    {
+        m = X.m;
+        n = X.n;
+    }
+    Rational &operator*= (Rational b)
+    {
+        m *= b.m;
+        n *= b.n;
+        int g = gcd (m, n);
+        m /= g;
+        n /= g;
+        return *this;
+    }
+    Rational &operator/= (Rational b)
+    {
+        m *= b.n;
+        n *= b.m;
+        int g = gcd (m, n);
+        m /= g;
+        n /= g;
+        return *this;
+    }
+    Rational &operator+= (Rational b)
+    {
+        n *= b.n;
+        m *= b.n;
+        b.m *= n;
+        m += b.m;
+        int g = gcd (m, n);
+        m /= g;
+        n /= g;
+        return *this;
+    }
+    Rational &operator-= (Rational b)
+    {
+        n *= b.n;
+        m *= b.n;
+        b.m *= n;
+        m -= b.m;
+        int g = gcd (m, n);
+        m /= g;
+        n /= g;
+        return *this;
+    }
+};
+
+Rational operator* (Rational a, Rational b)
+{
+    int p = a.m * b.m;
+    int q = a.n * b.n;
+    return Rational(p, q);
+};
+
+Rational operator/ (Rational a, Rational b)
+{
+    int p = a.m * b.n;
+    int q = a.n * b.m;
+    return Rational(p, q);
+};
+
+Rational operator + (Rational a, Rational b)
+{
+    int p = a.m * b.n + b.m * a.n;
+    int q = a.n * b.n;
+    return Rational(p, q);
+}
+
+Rational operator - (Rational a, Rational b)
+{
+    int p = a.m * b.n - b.m * a.n;
+    int q = a.n * b.n;
+    return Rational(p, q);
+}
+
+bool operator> (Rational a, Rational b)
+{
+    return (a.m * b.n > b.m * a.n);
+};
+
+bool operator< (Rational a, Rational b)
+{
+    return (a.m * b.n < b.m * a.n);
+};
+
+bool operator<= (Rational a, Rational b)
+{
+    return !(a > b);
+};
+
+bool operator>= (Rational a, Rational b)
+{
+    return !(a < b);
+};
+
+bool operator== (Rational a, Rational b)
+{
+    return ((a.m == b.m) && (a.n == b.n));
+};
+
+ostream& operator<< (std::ostream& out, const Rational &a)
+{
+    return out << a.m << "/" << a.n;
+};
+
+istream& operator>> (std::istream& in, Rational &a)
+{
+    in >> a.m >> a.n;
+    int g = gcd (a.m, a.n);
+    a.m /= g;
+    a.n /= g;
+    return in;
+};
+
+int main()
+{
+    int x, y;
+    cin >> x >> y;
+    cout << Rational(x, y) << endl;
+    cout << Rational(x, y) + Rational(y, x) << endl;
+    cout << Rational(x, y) - Rational(y, x) << endl;
+    cout << Rational(x, y) * Rational(y, x) << endl;
+    cout << Rational(x, y) / Rational(y, x) << endl;
+    cout << (Rational(x, y) > Rational(y, x)) << endl;
+    cout << (Rational(x, y) <= Rational(y, x)) << endl;
+    cout << (Rational(x, y) *= Rational(y, x)) << endl;
+    cout << (Rational(x, y) += Rational(y, x)) << endl;
+
+    return 0;
+}
