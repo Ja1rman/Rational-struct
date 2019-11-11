@@ -80,19 +80,19 @@ Rational operator/ (Rational a, Rational b)
     return Rational(p, q);
 };
 
-Rational operator + (Rational a, Rational b)
+Rational operator+ (Rational a, Rational b)
 {
     int p = a.m * b.n + b.m * a.n;
     int q = a.n * b.n;
     return Rational(p, q);
-}
+};
 
-Rational operator - (Rational a, Rational b)
+Rational operator- (Rational a, Rational b)
 {
     int p = a.m * b.n - b.m * a.n;
     int q = a.n * b.n;
     return Rational(p, q);
-}
+};
 
 bool operator> (Rational a, Rational b)
 {
